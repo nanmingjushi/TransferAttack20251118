@@ -52,7 +52,9 @@ def main():
                 perturbations = attacker(images, labels)
                 save_images(args.output_dir, images + perturbations.cpu(), filenames)
     else:
-        res = '|'
+        # res = '|'
+        res=""
+        # 选择评估阶段的模型
         for model_name, model in load_pretrained_model(cnn_model_paper, vit_model_paper):
             model = wrap_model(model.eval().cuda())
             for p in model.parameters():
@@ -70,7 +72,8 @@ def main():
             else:
                 asr = eval(model, dataloader, args.targeted)
             print(f'{model_name}: {asr:.1f}')
-            res += f' {asr:.1f} |'
+            # res += f' {asr:.1f} |'
+            res+=f"| {model_name}:{asr:.1f} "
 
         print(res)
         with open('results_eval.txt', 'a') as f:
@@ -96,3 +99,12 @@ def eval(model, dataloader, is_targeted):
 
 if __name__ == '__main__':
     main()
+
+# 生成对抗样本
+# 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --attack mifgsm --model=resnet50
+# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --attack bfa --model=resnet50
+
+# 评估对抗样本
+# 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --eval
+# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --eval
+

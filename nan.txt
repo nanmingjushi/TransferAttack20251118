@@ -1,0 +1,22 @@
+transferattack/  攻击库
+├─ __init__.py              ← 攻击注册表 attack_zoo
+├─ attack.py                ← Attack 抽象基类（所有攻击继承它）
+├─ utils.py                 ← 模型加载 / 数据集类 / 工具函数
+├─ gradient/                ← 梯度优化攻击（I-FGSM、MIM等）
+├─ advanced_objective/      ← 各种高级损失/目标（特征级攻击FIA、BFA等）
+├─ input_transformation/    ← 输入变换攻击（DIM、TIM、SIM、BSR等）
+├─ generation/              ← 对抗生成策略（patch、mask、分块等）
+├─ model_related/           ← ⭐模型结构相关（对ViT架构的攻击TGR、FPR等）
+└─ ensemble/                ← 多模型/多方式 集成攻击
+
+
+main.py  入口文件
+
+# 生成对抗样本
+# 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --attack mifgsm --model=resnet50
+# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --attack bfa --model=resnet50
+
+# 评估对抗样本
+# 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --eval
+# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --eval
+
