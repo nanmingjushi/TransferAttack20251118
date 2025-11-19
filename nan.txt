@@ -1,5 +1,5 @@
 transferattack/  攻击库
-├─ __init__.py              ← 攻击注册表 attack_zoo
+├─ __init__.py              ← 攻击方法的字典attack_zoo
 ├─ attack.py                ← Attack 抽象基类（所有攻击继承它）
 ├─ utils.py                 ← 模型加载 / 数据集类 / 工具函数
 ├─ gradient/                ← 梯度优化攻击（I-FGSM、MIM等）
