@@ -1,7 +1,9 @@
 import importlib
 
+# 攻击方法的字典
+# 攻击名称：文件路径，类名
 attack_zoo = {
-    # gradient
+    # gradient 梯度优化攻击
     'fgsm': ('.gradient.fgsm', 'FGSM'),
     'ifgsm': ('.gradient.ifgsm', 'IFGSM'),
     'mifgsm': ('.gradient.mifgsm', 'MIFGSM'),
@@ -33,7 +35,7 @@ attack_zoo = {
     'gaa': ('.gradient.gaa', 'GAA'),  
     'foolmix': ('.gradient.foolmix', 'Foolmix'),  
     
-    # input transformation
+    # input transformation 输入变换攻击
     ## Untargeted
     'dim': ('.input_transformation.dim', 'DIM'),
     'tim': ('.input_transformation.tim', 'TIM'),
@@ -60,7 +62,7 @@ attack_zoo = {
     'ssm_p': ('.input_transformation.ssm_with_tricks', 'SSA_P'),
     'ssm_h': ('.input_transformation.ssm_with_tricks', 'SSM_H'),
     
-    # advanced_objective
+    # advanced_objective 各种高级损失/目标（特征级攻击FIA、BFA等）
     ## Untargeted
     'tap': ('.advanced_objective.tap', 'TAP'),
     'ila': ('.advanced_objective.ila', 'ILA'),
@@ -86,7 +88,7 @@ attack_zoo = {
     'cfm': ('.advanced_objective.cfm', 'CFM'),
     'fft': ('.advanced_objective.fft', 'FFT'),
     
-    # model_related
+    # model_related 模型结构相关（对ViT架构的攻击TGR、FPR等）
     'sgm': ('.model_related.sgm', 'SGM'),
     'linbp': ('.model_related.linbp', 'LinBP'),
     'pna_patchout': ('.model_related.pna_patchout', 'PNA_PatchOut'),
@@ -113,7 +115,7 @@ attack_zoo = {
     'ana': ('.model_related.ana', 'ANA'),
     'll2s': ('.model_related.ll2s', "LL2S"),
 
-    # ensemble
+    # ensemble 集成类攻击
     'ens': ('.ensemble.ens', 'ENS'),
     'ghost': ('.model_related.ghost', 'GhostNetwork_MIFGSM'),
     'svre': ('.ensemble.svre', 'SVRE'),
@@ -125,7 +127,7 @@ attack_zoo = {
     ## Targeted
     'sasd_ws': ('.ensemble.sasd_ws', 'SASD_WS'),
     
-    # generation
+    # generation 生成式对抗样本（DiffAttack、AdvGAN、TTP等）
     ## Untargeted
     'cdtp': ('.generation.cdtp', 'CDTP'),
     'ltp': ('.generation.ltp', 'LTP'),
@@ -139,6 +141,7 @@ attack_zoo = {
 }
 
 
+# 按攻击名称加载对应攻击类
 def load_attack_class(attack_name):
     if attack_name not in attack_zoo:
         raise Exception('Unspported attack algorithm {}'.format(attack_name))

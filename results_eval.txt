@@ -1,1 +1,2 @@
 D:/000-dataset/output/bfa/resnet50| resnet50:97.7 | vgg16:93.4 | mobilenet_v2:92.8 | inception_v3:85.6 | vit_base_patch16_224:49.4 | pit_b_224:73.2 | visformer_small:85.0 | swin_tiny_patch4_window7_224:82.8 
+D:/000-dataset/output/sim/visformer_small| resnet50:74.0 | vgg16:84.3 | mobilenet_v2:79.2 | inception_v3:70.6 | vit_base_patch16_224:58.7 | pit_b_224:80.5 | visformer_small:99.9 | swin_tiny_patch4_window7_224:87.2 

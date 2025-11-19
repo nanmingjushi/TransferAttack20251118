@@ -5,13 +5,14 @@ import numpy as np
 
 from .utils import *
 
+# 所有攻击方法的父类
 class Attack(object):
     """
     Base class for all attacks.
     """
     def __init__(self, attack, model_name, epsilon, targeted, random_start, norm, loss, device=None):
         """
-        Initialize the hyperparameters
+        初始化攻击超参数
 
         Arguments:
             attack (str): the name of attack.
@@ -37,6 +38,7 @@ class Attack(object):
             self.device = next(self.model.parameters()).device if device is None else device
         self.loss = self.loss_function(loss)
 
+    # 加载替代模型
     def load_model(self, model_name):
         """
         The model Loading stage, which should be overridden when surrogate model is customized (e.g., DSM, SETR, etc.)
@@ -64,6 +66,7 @@ class Attack(object):
         else:
             return load_single_model(model_name)
 
+    # 攻击主流程，输入图像、标签，输出扰动delta
     def forward(self, data, label, **kwargs):
         """
         The general attack procedure
@@ -83,20 +86,21 @@ class Attack(object):
         delta = self.init_delta(data)
 
         momentum = 0
+        # 迭代更新
         for _ in range(self.epoch):
-            # Obtain the output
+            # Obtain the output 前向推理
             logits = self.get_logits(self.transform(data+delta, momentum=momentum))
 
-            # Calculate the loss
+            # Calculate the loss 计算损失
             loss = self.get_loss(logits, label)
 
-            # Calculate the gradients
+            # Calculate the gradients 求梯度
             grad = self.get_grad(loss, delta)
 
-            # Calculate the momentum
+            # Calculate the momentum 动量更新
             momentum = self.get_momentum(grad, momentum)
 
-            # Update adversarial perturbation
+            # Update adversarial perturbation 更新扰动delta
             delta = self.update_delta(delta, data, momentum, self.alpha)
 
         return delta.detach()
@@ -104,12 +108,14 @@ class Attack(object):
     def get_logits(self, x, **kwargs):
         """
         The inference stage, which should be overridden when the attack need to change the models (e.g., ensemble-model attack, ghost, etc.) or the input (e.g. DIM, SIM, etc.)
+        前向推理阶段
         """
         return self.model(x)
 
     def get_loss(self, logits, label):
         """
         The loss calculation, which should be overrideen when the attack change the loss calculation (e.g., ATA, etc.)
+        损失函数
         """
         # Calculate the loss
         return -self.loss(logits, label) if self.targeted else self.loss(logits, label)
@@ -118,15 +124,18 @@ class Attack(object):
     def get_grad(self, loss, delta, **kwargs):
         """
         The gradient calculation, which should be overridden when the attack need to tune the gradient (e.g., TIM, variance tuning, enhanced momentum, etc.)
+        计算梯度
         """
         return torch.autograd.grad(loss, delta, retain_graph=False, create_graph=False)[0]
 
     def get_momentum(self, grad, momentum, **kwargs):
         """
         The momentum calculation
+        动量更新
         """
         return momentum * self.decay + grad / (grad.abs().mean(dim=(1,2,3), keepdim=True))
 
+    # 初始化扰动delta
     def init_delta(self, data, **kwargs):
         delta = torch.zeros_like(data).to(self.device)
         if self.random_start:
@@ -142,6 +151,7 @@ class Attack(object):
         delta.requires_grad = True
         return delta
 
+    # 更新扰动delta
     def update_delta(self, delta, data, grad, alpha, **kwargs):
         if self.norm == 'linfty':
             delta = torch.clamp(delta + alpha * grad.sign(), -self.epsilon, self.epsilon)
@@ -152,6 +162,7 @@ class Attack(object):
         delta = clamp(delta, img_min-data, img_max-data)
         return delta.detach().requires_grad_(True)
 
+    # 损失函数加载
     def loss_function(self, loss):
         """
         Get the loss function
@@ -161,6 +172,7 @@ class Attack(object):
         else:
             raise Exception("Unsupported loss {}".format(loss))
 
+    # 默认不变换输入，输入变换类方法会覆盖此函数
     def transform(self, data, **kwargs):
         return data
 

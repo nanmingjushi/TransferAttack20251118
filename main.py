@@ -6,7 +6,9 @@ import tqdm
 import transferattack
 from transferattack.utils import *
 
+# 项目主程序：生成对抗样本+评估所生成的对抗样本的迁移性
 
+# 解析命令行参数，返回一个args对象，包含用户指定的攻击方法、模型、输入输出路径等信息
 def get_parser():
     parser = argparse.ArgumentParser(description='Generating transferable adversaria examples')
     parser.add_argument('-e', '--eval', action='store_true', help='attack/evluation')
@@ -26,15 +28,20 @@ def get_parser():
     return parser.parse_args()
 
 
+# 主函数，控制整个流程。
+# 非eval模式（默认）：生成对抗样本
+# eval模式：评估对抗样本的迁移性
 def main():
     args = get_parser()
     os.environ["CUDA_VISIBLE_DEVICES"] = args.GPU_ID
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
 
+    # 构建数据集和DataLoader
     dataset = AdvDataset(input_dir=args.input_dir, output_dir=args.output_dir, targeted=args.targeted, eval=args.eval)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=args.batchsize, shuffle=False, num_workers=4)
 
+    # 生成对抗样本阶段
     if not args.eval:
         if args.ensemble or len(args.model.split(',')) > 1:
             args.model = args.model.split(',')
@@ -51,10 +58,13 @@ def main():
             else:
                 perturbations = attacker(images, labels)
                 save_images(args.output_dir, images + perturbations.cpu(), filenames)
+
+    # 评估阶段（攻击成功率ASR）
     else:
         # res = '|'
         res=""
-        # 选择评估阶段的模型
+
+        # 根据实际需要，选择评估阶段要攻击的模型
         for model_name, model in load_pretrained_model(cnn_model_paper, vit_model_paper):
             model = wrap_model(model.eval().cuda())
             for p in model.parameters():
@@ -73,13 +83,18 @@ def main():
                 asr = eval(model, dataloader, args.targeted)
             print(f'{model_name}: {asr:.1f}')
             # res += f' {asr:.1f} |'
+            # 将评估结果写入字符串，结果在results_eval.txt保存
             res+=f"| {model_name}:{asr:.1f} "
 
         print(res)
+        # 将评估结果写入字符串，结果在results_eval.txt保存
         with open('results_eval.txt', 'a') as f:
             f.write(args.output_dir + res + '\n')
                 
-                
+
+# 计算攻击成功率ASR
+# 若是非目标攻击：ASR=1-分类正确率
+# 若是目标攻击：ASR=分类为目标类的比例
 def eval(model, dataloader, is_targeted):
     correct, total = 0, 0
     for images, labels, _ in dataloader:

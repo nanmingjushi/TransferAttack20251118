@@ -9,23 +9,29 @@ import pandas as pd
 import timm
 import os
 
+# 图像默认大小
 img_height, img_width = 224, 224
 img_max, img_min = 1., 0
 
+# 评估阶段的模型
+# 论文中主要使用的CNN模型
 cnn_model_paper = ['resnet50', 'vgg16', 'mobilenet_v2', 'inception_v3']
+# 论文中主要使用的ViT模型
 vit_model_paper = ['vit_base_patch16_224', 'pit_b_224',
                    'visformer_small', 'swin_tiny_patch4_window7_224']
-
+# 扩展版CNN模型
 cnn_model_pkg = ['vgg19', 'resnet18', 'resnet101',
                  'resnext50_32x4d', 'densenet121', 'mobilenet_v2']
+# 扩展版ViT模型
 vit_model_pkg = ['vit_base_patch16_224', 'pit_b_224', 'cait_s24_224', 'visformer_small',
                  'tnt_s_patch16_224', 'levit_256', 'convit_base', 'swin_tiny_patch4_window7_224']
-
+# TGR-ViT系列模型（某些论文专用）
 tgr_vit_model_list = ['vit_base_patch16_224', 'pit_b_224', 'cait_s24_224', 'visformer_small',
                       'deit_base_distilled_patch16_224', 'tnt_s_patch16_224', 'levit_256', 'convit_base']
-
+# 一些攻击方法会用到的固定的10个目标类别
 generation_target_classes = [24, 99, 245, 344, 471, 555, 661, 701, 802, 919]
 
+# 加载预训练模型
 def load_pretrained_model(cnn_model=[], vit_model=[]):
     for model_name in cnn_model:
         yield model_name, models.__dict__[model_name](weights="DEFAULT")
@@ -34,6 +40,7 @@ def load_pretrained_model(cnn_model=[], vit_model=[]):
         yield model_name, timm.create_model(model_name, pretrained=True)
 
 
+# 在模型前加一个预处理模块（resize+normalize），保证所有模型都用一致的输入规范
 def wrap_model(model):
     """
     Add normalization layer with mean and std in training configuration
@@ -60,6 +67,7 @@ def wrap_model(model):
     return torch.nn.Sequential(PreprocessModel, model)
 
 
+# 将生成的对抗样本保存为图片到指定目录
 def save_images(output_dir, adversaries, filenames):
     adversaries = (adversaries.detach().permute((0,2,3,1)).cpu().numpy() * 255).astype(np.uint8)
     for i, filename in enumerate(filenames):
@@ -69,6 +77,7 @@ def clamp(x, x_min, x_max):
     return torch.min(torch.max(x, x_min), x_max)
 
 
+# 图像预处理模块（resize+normalize）
 class PreprocessingModel(nn.Module):
     def __init__(self, resize, mean, std):
         super(PreprocessingModel, self).__init__()
@@ -79,6 +88,7 @@ class PreprocessingModel(nn.Module):
         return self.normalize(self.resize(x))
 
 
+# 集成模型用于集成攻击。把多个模型合并为一个整体替代模型
 class EnsembleModel(torch.nn.Module):
     def __init__(self, models, mode='mean'):
         super(EnsembleModel, self).__init__()
@@ -105,6 +115,7 @@ class EnsembleModel(torch.nn.Module):
             raise NotImplementedError
 
 
+# 读取图片+标签
 class AdvDataset(torch.utils.data.Dataset):
     def __init__(self, input_dir=None, output_dir=None, targeted=False, target_class=None, eval=False):
         self.targeted = targeted

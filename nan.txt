@@ -5,18 +5,28 @@ transferattack/  攻击库
 ├─ gradient/                ← 梯度优化攻击（I-FGSM、MIM等）
 ├─ advanced_objective/      ← 各种高级损失/目标（特征级攻击FIA、BFA等）
 ├─ input_transformation/    ← 输入变换攻击（DIM、TIM、SIM、BSR等）
-├─ generation/              ← 对抗生成策略（patch、mask、分块等）
+├─ generation/              ← 生成式对抗样本（DiffAttack、AdvGAN、TTP等）
 ├─ model_related/           ← ⭐模型结构相关（对ViT架构的攻击TGR、FPR等）
-└─ ensemble/                ← 多模型/多方式 集成攻击
+└─ ensemble/                ← 集成类攻击
 
 
-main.py  入口文件
-
+main.py  入口文件  默认batchsize=32  默认epoch=10
 # 生成对抗样本
 # 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --attack mifgsm --model=resnet50
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --attack bfa --model=resnet50
-
+# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/sim/visformer_small --attack sim --model=visformer_small --batchsize 8 --epoch 10
 # 评估对抗样本
 # 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --eval
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --eval
+# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/sim/visformer_small --eval
+
+
+attack.py  攻击方法的父类
+
+utils.py  模型
+
+_init_.py  攻击方法
+
+results_eval.txt  对抗样本评估结果
+
 
