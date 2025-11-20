@@ -11,15 +11,16 @@ transferattack/  攻击库
 
 
 main.py  入口文件  默认batchsize=32  默认epoch=10
-# 生成对抗样本
+# ⭐生成对抗样本
 # 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --attack mifgsm --model=resnet50
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --attack bfa --model=resnet50
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/sim/visformer_small --attack sim --model=visformer_small --batchsize 8 --epoch 10
-# 评估对抗样本
+# python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bfa/resnet50 --attack bfa --model=resnet50
+# ⭐评估对抗样本
 # 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --eval
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --eval
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/sim/visformer_small --eval
-
+# python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bfa/resnet50 --eval
 
 attack.py  攻击方法的父类
 
