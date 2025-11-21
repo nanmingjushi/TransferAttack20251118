@@ -31,3 +31,13 @@ _init_.py  攻击方法
 results_eval.txt  对抗样本评估结果
 
 
+
+# FPR由于方法，batchsize应该手动设置为8
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fpr/vit_base_patch16_224 --attack fpr --model=vit_base_patch16_224 --batchsize 8
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fpr/vit_base_patch16_224 --eval
+
+# TGR非常占GPU显存
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bsr/inception_v3 --attack bsr --model=inception_v3 --batchsize 8
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bsr/inception_v3 --eval
+
+
