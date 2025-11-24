@@ -32,12 +32,38 @@ results_eval.txt  对抗样本评估结果
 
 
 
-# FPR由于方法，batchsize应该手动设置为8
-python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fpr/vit_base_patch16_224 --attack fpr --model=vit_base_patch16_224 --batchsize 8
-python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fpr/vit_base_patch16_224 --eval
 
-# TGR非常占GPU显存
+mifgsm
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/mifgsm/inception_v3 --attack mifgsm --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/mifgsm/inception_v3 --eval
+gifgsm
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/gifgsm/inception_v3 --attack gifgsm --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/gifgsm/inception_v3 --eval
+gaa
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/gaa/inception_v3 --attack gaa --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/gaa/inception_v3 --eval
+
+dim
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/dim/inception_v3 --attack dim --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/dim/inception_v3 --eval
+bsr 非常占GPU显存 --batchsize 8
 python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bsr/inception_v3 --attack bsr --model=inception_v3 --batchsize 8
 python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bsr/inception_v3 --eval
+ops
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/ops/inception_v3 --attack ops --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/ops/inception_v3 --eval
+
+fia
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fia/inception_v3 --attack fia --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fia/inception_v3 --eval
+bfa
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bfa/inception_v3 --attack bfa --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bfa/inception_v3 --eval
+p2fa
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/p2fa/inception_v3 --attack p2fa --model=inception_v3
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/p2fa/inception_v3 --eval
+
+
+
 
 

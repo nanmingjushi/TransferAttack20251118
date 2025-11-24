@@ -47,6 +47,15 @@ class P2FA(MIFGSM):
     def __init__(self, model_name, epsilon=16 / 255, alpha=1.6 / 255, epoch=10, decay=1., num_ens=30,
                  targeted=False, random_start=False, feature_layer='1.layer2',
                  norm='linfty', loss='crossentropy', device=None, attack='P2FA', eta=28.0, **kwargs):
+
+        # 根据模型类型，自动选择合适的特征层名称
+        # 默认的 layer_name 是给 ResNet 用的
+        if model_name.startswith("resnet"):
+            pass
+        # inception_v3，就用 Mixed_5b
+        elif model_name == "inception_v3" and feature_layer == "1.layer2":
+            feature_layer = "Mixed_5b"
+
         super().__init__(model_name, epsilon, alpha, epoch, decay, targeted, random_start, norm, loss, device, attack)
         self.ensemble_number = num_ens
         self.layer_name = feature_layer
@@ -72,7 +81,7 @@ class P2FA(MIFGSM):
         return None
 
     def register_hook(self):
-        for name, module in self.model.named_modules():
+        for name, module in self.model[1].named_modules():
             if name == self.layer_name:
                 module.register_forward_hook(hook=self.hook)
 

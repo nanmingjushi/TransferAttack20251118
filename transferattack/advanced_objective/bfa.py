@@ -42,6 +42,15 @@ class BFA(MIFGSM):
 
     def __init__(self, model_name, epsilon=16/255, alpha=1.6/255, epoch=10, decay=1., eta=28, num_ens=30,
                  targeted=False, random_start=False, layer_name='layer2.1', norm='linfty', loss='crossentropy', device=None, attack='BFA', **kwargs):
+
+        # 根据模型类型，自动选择合适的特征层名称
+        # 默认的 layer_name='layer2.1' 是给 ResNet 用的
+        if model_name.startswith('resnet'):
+            pass
+        elif model_name == 'inception_v3' and layer_name == 'layer2.1':
+            # inception_v3，就用 Mixed_5b
+            layer_name = 'Mixed_5b'
+
         super().__init__(model_name, epsilon, alpha, epoch, decay, targeted, random_start, norm, loss, device, attack)
         self.eta = eta
         self.num_ens = num_ens

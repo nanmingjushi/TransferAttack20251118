@@ -13,7 +13,7 @@ class FIA(MIFGSM):
     Arguments:
         model_name (str): the name of surrogate model for attack.
         epsilon (float): the perturbation budget.
-        featur_layer (str): the feature layer name
+        feature_layer (str): the feature layer name
         alpha (float): the step size.
         epoch (int): the number of iterations.
         decay (float): the decay factor for momentum calculation.
@@ -38,6 +38,13 @@ class FIA(MIFGSM):
                  targeted=False, random_start=False, feature_layer='layer2',
                  norm='linfty', loss='crossentropy', device=None, attack='FIA',drop_rate=0.3, **kwargs):
         super().__init__(model_name, epsilon, alpha, epoch, decay, targeted, random_start, norm, loss, device, attack)
+
+        # 只对 inception_v3 做特殊处理，写死中间层用 Mixed_5b
+        if model_name.startswith('resnet'):
+            feature_layer = 'layer2'
+        elif model_name == 'inception_v3':
+            feature_layer = 'Mixed_5b'
+
         self.num_ens = num_ens
         self.feature_layer = self.find_layer(feature_layer)
         self.drop_rate = drop_rate
@@ -45,6 +52,10 @@ class FIA(MIFGSM):
     def find_layer(self,layer_name):
         parser = layer_name.split(' ')
         m = self.model[1]
+
+        # 临时调试用：
+        print(m._modules.keys())
+
         for layer in parser:
             if layer not in m._modules.keys():
                 print("Selected layer is not in Model")
