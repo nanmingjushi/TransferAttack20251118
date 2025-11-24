@@ -36,6 +36,8 @@ class PNA_PatchOut(MIFGSM):
 
     def __init__(self, model_name, epsilon=16/255, alpha=1.6/255, epoch=10, decay=1., targeted=False, gamma=0.2, random_start=False, norm='linfty', loss='crossentropy', device=None, attack='pna-patchout', ablation_study='1,1,1', **kwargs):
         super().__init__(model_name, epsilon, alpha, epoch, decay, targeted, random_start, norm, loss, device, attack)
+
+        # 源模型写死 vit_base_patch16_224
         self.model_name = 'vit_base_patch16_224'
         self.ablation_study = ablation_study.split(',')
 
@@ -68,6 +70,7 @@ class PNA_PatchOut(MIFGSM):
 
     def load_model(self, model_name):
         model = create_model(
+                            # 源模型写死 vit_base_patch16_224
                             model_name='vit_base_patch16_224',
                             pretrained=True,
                             num_classes=1000,

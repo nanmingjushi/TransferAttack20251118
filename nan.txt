@@ -14,12 +14,10 @@ main.py  入口文件  默认batchsize=32  默认epoch=10
 # ⭐生成对抗样本
 # 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --attack mifgsm --model=resnet50
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --attack bfa --model=resnet50
-# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/sim/visformer_small --attack sim --model=visformer_small --batchsize 8 --epoch 10
 # python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bfa/resnet50 --attack bfa --model=resnet50
 # ⭐评估对抗样本
 # 示例 python main.py --input_dir ./path/to/data --output_dir adv_data/mifgsm/resnet50 --eval
 # python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/bfa/resnet50 --eval
-# python main.py --input_dir D:/000-dataset/ImageNet-compatible-dataset --output_dir D:/000-dataset/output/sim/visformer_small --eval
 # python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/bfa/resnet50 --eval
 
 attack.py  攻击方法的父类
@@ -63,7 +61,21 @@ p2fa
 python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/p2fa/inception_v3 --attack p2fa --model=inception_v3
 python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/p2fa/inception_v3 --eval
 
-
+pna_patchout
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/pna_patchout/vit_base_patch16_224 --attack pna_patchout 
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/pna_patchout/vit_base_patch16_224 --eval
+tgr
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/vit_base_patch16_224 --attack tgr --model vit_base_patch16_224 --batchsize 1
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/vit_base_patch16_224 --eval
+vdc
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/vdc/vit_base_patch16_224 --attack vdc --model vit_base_patch16_224
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/vdc/vit_base_patch16_224 --eval
+att
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/att/vit_base_patch16_224 --attack att --model vit_base_patch16_224 --batchsize 1
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/att/vit_base_patch16_224 --eval
+fpr
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fpr/vit_base_patch16_224 --attack fpr --model vit_base_patch16_224 --batchsize 8
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/fpr/vit_base_patch16_224 --eval
 
 
 
