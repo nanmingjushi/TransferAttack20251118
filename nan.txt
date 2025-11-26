@@ -79,3 +79,20 @@ python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --
 
 
 
+
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/pit_b_224 --attack tgr --model pit_b_224 --batchsize 1
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/pit_b_224 --eval
+
+
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/visformer_small --attack tgr --model visformer_small --batchsize 1
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/visformer_small --eval
+
+
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/cait_s24_224 --attack tgr --model cait_s24_224 --batchsize 1
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/cait_s24_224 --eval
+
+
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/deit_base_distilled_patch16_224 --attack tgr --model deit_base_distilled_patch16_224 --batchsize 1
+python main.py --input_dir /home/data/nan/dataset/ImageNet-compatible-dataset --output_dir /home/data/nan/dataset/output/tgr/deit_base_distilled_patch16_224 --eval
+
+
