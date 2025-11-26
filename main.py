@@ -65,7 +65,10 @@ def main():
         res=""
 
         # 根据实际需要，选择评估阶段要攻击的模型
-        for model_name, model in load_pretrained_model(cnn_model_paper, vit_model_paper):
+        # for model_name, model in load_pretrained_model(cnn_model_paper, vit_model_paper):
+        all_cnn_models = list(dict.fromkeys(cnn_model_paper + cnn_model_pkg))  # 去重保持顺序
+        all_vit_models = list(dict.fromkeys(vit_model_paper + vit_model_pkg))
+        for model_name, model in load_pretrained_model(all_cnn_models, all_vit_models):
             model = wrap_model(model.eval().cuda())
             for p in model.parameters():
                 p.requires_grad = False
