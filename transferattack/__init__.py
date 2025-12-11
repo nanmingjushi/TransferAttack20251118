@@ -114,6 +114,8 @@ attack_zoo = {
     'faug': ('.model_related.faug', 'FAUG'),
     'ana': ('.model_related.ana', 'ANA'),
     'll2s': ('.model_related.ll2s', "LL2S"),
+    'ffnfda': ('.model_related.ffnfda', "FFNFDA"),
+    'mat': ('.model_related.mat', "MAT"),
 
     # ensemble 集成类攻击
     'ens': ('.ensemble.ens', 'ENS'),
