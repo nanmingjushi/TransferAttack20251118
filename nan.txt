@@ -60,5 +60,9 @@ python main.py --input_dir /home/nan/dataset/ImageNet-compatible-dataset --outpu
 python main.py --input_dir /home/nan/dataset/ImageNet-compatible-dataset --output_dir /home/nan/dataset/output/mat/vit_base_patch16_224 --eval
 
 
+dim
+python main.py --input_dir /home/nan/dataset/ImageNet-compatible-dataset --output_dir /home/nan/dataset/output/dim/vit_base_patch16_224 --attack dim --model vit_base_patch16_224 
+python main.py --input_dir /home/nan/dataset/ImageNet-compatible-dataset --output_dir /home/nan/dataset/output/dim/vit_base_patch16_224 --eval
+
 
 
